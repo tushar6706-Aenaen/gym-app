@@ -21,9 +21,29 @@ const Generator = () => {
     const [showModal, setShowModal] = useState(false);
     const [poison, setPoison] = useState('individual');
     const [muscles, setMuscles] = useState([]);
-    const [goals, setGoals] = useState('strength_power');
+    const [goal, setGoal] = useState('strength_power');
+
     const toggleModal = () => {
         setShowModal(!showModal);
+    }
+
+    const updateMuscles = (muscleGroup) => {
+
+        if (muscles.includes(muscleGroup)) {
+            setMuscles(muscles.filter(val => val !== muscleGroup))
+            return 
+        }
+        
+        if (muscles.length > 2) {
+            return
+        }
+
+        if (poison !== 'individual') {
+            setMuscles([muscleGroup])
+            return
+        }
+
+        setMuscles([...muscles,muscleGroup])
     }
     return (
         <SectionWrapper header={"generate your workout"} title={['It\'s', 'Huge', 'o\'clock']} >
@@ -46,14 +66,24 @@ const Generator = () => {
 
             <Header index={2} title={'Lock on targets'} description={'Select the muscles judged for annihilation. '} />
 
-            <div className='bg-slate-950 flex flex-col  border border-solid  border-blue-400 rounded-md px-4  w-full  cursor-pointer hover:bg-slate-800 duration-200'>
+            <div className='bg-slate-950 flex flex-col  border border-solid  border-blue-400 rounded-md px-4  w-full  cursor-pointer  duration-200'>
                 <button onClick={toggleModal} className='relative p-3 flex items-center justify-center'>
                     <p>
                         Select muscle groups
                         <i className="fa-solid  fa-caret-down absolute right-3 top-1/2 -translate-y-1/2"></i>
                     </p>
                 </button>
-                {showModal && (<div>Modal</div>)}
+                {showModal && (<div className='flex p-3 flex-col '>
+                    {(poison === 'individual' ? WORKOUTS[poison] : Object.keys(WORKOUTS[poison])).map((muscleGroup, muscleGroupIndex) => {
+                        return (
+                            <button onClick={() => {
+                                setMuscles()
+                            }} className='hover:text-blue-400  duration-200' key={muscleGroupIndex}>
+                                <p className='uppercase p-1 text-lg'>{muscleGroup.replaceAll('_', ' ')}</p>
+                            </button>
+                        )
+                    })}
+                </div>)}
             </div>
 
 
@@ -64,7 +94,9 @@ const Generator = () => {
                 {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
                     return (
 
-                        <button key={schemeIndex} className=' bg-slate-950   flex   border border-blue-400 p-4 rounded-md justify-center items-center  hover:border-blue-600 duration-200'>
+                        <button onClick={() => {
+                            setGoal(scheme);
+                        }} key={schemeIndex} className={' bg-slate-950    flex   border   p-4 hover:border-blue-600 rounded-md justify-center items-center   duration-200 ' + (scheme === goal ? ' border-blue-600 ' : ' border-blue-400')}>
                             <p className='capitalize' >{scheme.replaceAll('_', " ")}</p>
                         </button>
 
