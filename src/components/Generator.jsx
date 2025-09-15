@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SectionWrapper from './SectionWrapper'
-import { EXERCISES, WORKOUTS } from '../utils/swoldier';
+import { EXERCISES, SCHEMES, WORKOUTS } from '../utils/swoldier';
 
 
 
@@ -18,6 +18,13 @@ const Header = (props) => {
     )
 }
 const Generator = () => {
+    const [showModal, setShowModal] = useState(false);
+    const [poison, setPoison] = useState('individual');
+    const [muscles, setMuscles] = useState([]);
+    const [goals, setGoals] = useState('strength_power');
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    }
     return (
         <SectionWrapper header={"generate your workout"} title={['It\'s', 'Huge', 'o\'clock']} >
             <Header index={1} title={'Pick your poison'} description={'Select the workout you wish to endure. '} />
@@ -27,7 +34,9 @@ const Generator = () => {
                 {Object.keys(WORKOUTS).map((type, typeIndex) => {
                     return (
 
-                        <button key={typeIndex} className=' bg-slate-950   flex   border border-blue-400 p-4 rounded-md justify-center items-center  hover:border-blue-600 duration-200'>
+                        <button onClick={() => {
+                            setPoison(type);
+                        }} key={typeIndex} className={' bg-slate-950    flex   border   p-4 hover:border-blue-600 rounded-md justify-center items-center   duration-200 ' + (type === poison ? 'border-blue-600' : 'border-blue-400')}>
                             <p className='capitalize' >{type.replaceAll('_', " ")}</p>
                         </button>
 
@@ -37,15 +46,32 @@ const Generator = () => {
 
             <Header index={2} title={'Lock on targets'} description={'Select the muscles judged for annihilation. '} />
 
-            <div className='bg-slate-950 py-3 border border-solid border-blue-400 rounded-md px-4  w-full  cursor-pointer hover:bg-slate-800 duration-200'>
-                <div className='relative'>
+            <div className='bg-slate-950 flex flex-col  border border-solid  border-blue-400 rounded-md px-4  w-full  cursor-pointer hover:bg-slate-800 duration-200'>
+                <button onClick={toggleModal} className='relative p-3 flex items-center justify-center'>
                     <p>
                         Select muscle groups
                         <i className="fa-solid  fa-caret-down absolute right-3 top-1/2 -translate-y-1/2"></i>
                     </p>
-                </div>
+                </button>
+                {showModal && (<div>Modal</div>)}
             </div>
-            
+
+
+            <Header index={3} title={'Become Juggernaut'} description={'Select your ultimate objective.'} />
+
+            <div className='grid grid-cols-3   gap-4'>
+
+                {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
+                    return (
+
+                        <button key={schemeIndex} className=' bg-slate-950   flex   border border-blue-400 p-4 rounded-md justify-center items-center  hover:border-blue-600 duration-200'>
+                            <p className='capitalize' >{scheme.replaceAll('_', " ")}</p>
+                        </button>
+
+                    )
+                })}
+            </div>
+
         </SectionWrapper>
     )
 }
