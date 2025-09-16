@@ -2,10 +2,10 @@
 
 const SectionWrapper = (props) => {
   
-    const {children,header,title} = props ;
+    const {children,header,title,id} = props ;
 
     return (
-    <section className="min-h-screen flex flex-col gap-10">
+    <section id={id} className="min-h-screen flex flex-col gap-10">
         <div className="bg-slate-950 py-10 flex flex-col  p-4 gap-4 justify-center items-center ">
         <p className="uppercase font-medium">
             {header}
