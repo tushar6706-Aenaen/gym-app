@@ -23,7 +23,7 @@ const App = () => {
   }
 
   return (
-    <main className='bg-gray-900 text-white flex flex-col min-h-screen bg-gradient-to-b from-slate-800 to-slate-950 text-sm  sm:text-base'>
+    <main className='bg-gray-900 text-white flex flex-col min-h-screen bg-gradient-to-r from-slate-800 to-slate-950 text-sm  sm:text-base'>
       <Hero />
       <Generator
         poison={poison}
