@@ -9,7 +9,10 @@ pnpm-debug.log*
 # Production build
 dist/
 build/
-
+ 
+#node 
+.json
+.config.js
 # Environment variables
 .env
 .env.local
